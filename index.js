@@ -18,7 +18,16 @@ async function run() {
     try {
         await client.connect();
         const collection = client.db("furnitureWarehouse").collection("products");
-        console.log('db connect')
+        //console.log('db connect')
+
+
+        //load all products
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const cursor = collection.find(query);
+            const products = await cursor.toArray(cursor);
+            res.send(products);
+        })
     }
     finally {
         //await client.close();
