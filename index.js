@@ -48,14 +48,28 @@ async function run() {
             const updateDoc = {
                 $set: {
                     quantity: updatequantity.quantity,
-
                 }
             };
             const result = await collection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
 
+        //update product by delivered
 
+        app.put('/inventory/:id', async (req, res) => {
+            const id = req.params.id
+            const quantity = req.body.quantitys;
+            console.log(req.body.quantitys)
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    quantity: quantity
+                },
+            };
+            const result = await collection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        })
 
         // Add a single product
         app.post('/addfurniture', async (req, res) => {
@@ -65,6 +79,14 @@ async function run() {
             const result = await collection.insertOne(newfurniture);
             res.send(result)
 
+        })
+
+        //
+        app.get('/mycollections', async (req, res) => {
+            const query = { senduser: senduser };
+            const cursor = collection.find(query);
+            const result = await cursor.toArray();
+            res.send(result)
         })
 
     }
