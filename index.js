@@ -83,7 +83,7 @@ async function run() {
 
         //
         app.get('/mycollections', async (req, res) => {
-            // const senduser = req.body.authorization;
+            const senduser = req.body.authorization;
             // console.log(senduser);
             const query = { senduser: senduser };
             const cursor = collection.find(query);
